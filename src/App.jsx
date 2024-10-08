@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 
 const App = () => {
   const [launches, setLaunches] = useState('[]');
-  const [loading, setLoading] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     // ასინქრონული ფუნქცია
-    const fetchLaunches = () => { 
+    const fetchLaunches = async () => { 
       try {
         const response = await fetch('https://api.spacexdata.com/v4/launches');
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
-        setLaunches(myNewData);
+        setLaunches(data);
         setLoading(false);
       } catch (err) {
         setError('Failed to fetch data');
@@ -25,7 +25,7 @@ const App = () => {
   if (loading) return <p>Loading...</p>; 
   if (error) return <p>{error}</p>;
 
-  return;
+  return(
     <div>
       <h1 className="text-3xl font-bold text-center mb-6">SpaceX Launches</h1>
       <div className="flex flex-wrap justify-center gap-6">
